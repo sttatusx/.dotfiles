@@ -1,3 +1,5 @@
 [user]
 	name = Yasin Silavi
 	email = yas.silavi28@gmail.com
+[credential]
+	helper = cache
