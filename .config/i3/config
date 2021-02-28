@@ -69,7 +69,7 @@ focus_on_window_activation smart
 focus_follows_mouse no
 
 # Use Mouse+$mod to drag floating windows
-floating_modifier $mod normal
+floating_modifier $mod
 
 
 #
@@ -217,4 +217,4 @@ mode "resize" {
 ##
 ### Autostart
 
-nitrogen --restore
+exec --no-startup-id nitrogen --restore
