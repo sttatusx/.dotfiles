@@ -17,7 +17,7 @@ set $second_terminal alacritty
 set $browser brave
 set $second_browser qutebrowser
 
-set $menu rofi -show run
+set $menu rofi -show drun -theme nordic.rasi
 
 # Workspaces
 set $ws1	1
@@ -143,10 +143,10 @@ bindsym $mod+b			splith
 bindsym $mod+v			splitv
 
 # Focus
-bindsym $mod+h			focus left
-bindsym $mod+j			focus down
-bindsym $mod+k			focus up
-bindsym $mod+l			focus right
+# bindsym $mod+h			focus left
+# bindsym $mod+j			focus down
+# bindsym $mod+k			focus up
+# bindsym $mod+l			focus right
 
 bindsym $mod+Left		focus left
 bindsym $mod+Down		focus down
@@ -157,10 +157,10 @@ bindsym $mod+a			focus parent
 bindsym $mod+space		focus mode_toggle
 
 # Movement
-bindsym $mod+Shift+h		move left
-bindsym $mod+Shift+k		move up
-bindsym $mod+Shift+j		move down
-bindsym $mod+Shift+l		move right
+# bindsym $mod+Shift+h		move left
+# bindsym $mod+Shift+k		move up
+# bindsym $mod+Shift+j		move down
+# bindsym $mod+Shift+l		move right
 
 bindsym $mod+Shift+Left		move left
 bindsym $mod+Shift+Up		move up
@@ -172,26 +172,28 @@ bindsym Mod1+Shift+Tab		workspace prev
 
 
 # Pulse Audio controls
-# bindsym XF86AudioRaiseVolume                exec --no-startup-id "pactl set-sink-volume 0 +5%"
-# bindsym XF86AudioLowerVolume                exec --no-startup-id "pactl set-sink-volume 0 -5%"
-# bindsym XF86AudioMute                       exec --no-startup-id "pactl set-sink-mute 0 toggle"
+bindsym XF86AudioRaiseVolume                exec --no-startup-id "pactl set-sink-volume 0 +2%"
+bindsym XF86AudioLowerVolume                exec --no-startup-id "pactl set-sink-volume 0 -3%"
+bindsym XF86AudioMute                       exec --no-startup-id "pactl set-sink-mute 0 toggle"
 
-# Screen brightness controls with notification
-# bindsym XF86MonBrightnessUp exec light -A 5; exec notify-send 'brightness up'
-# bindsym XF86MonBrightnessDown exec light -U 5; exec notify-send 'brightness down'
+# Screen brightness controls with notification (; exec notify-send 'brightness up')
+bindsym XF86MonBrightnessUp                 exec --no-startup-id "brightnessctl set +10% --quiet"
+bindsym XF86MonBrightnessDown               exec --no-startup-id "brightnessctl set 10%- --quiet"
 
 
 # Resize them with right mouse button + $mod.
 # Despite the name, also works for non-floating windows.
 # Change normal to inverse to use left mouse button for resizing and right
-# Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+e exec --no-startup-id "rofi -show power-menu -modi power-menu:rofi-power-menu -theme nordic.rasi"
 
 
 
 #
 ##
 ### Modes
+
+# Lock
+bindsym $mod+l exec i3lock -c 4C566A
 
 # Resize mode
 bindsym $mod+r mode "resize"
@@ -217,4 +219,22 @@ mode "resize" {
 ##
 ### Autostart
 
+exec --no-startup-id picom &
+
+## Wallpaper
 exec --no-startup-id nitrogen --restore
+
+## Animate wallpaper
+# exec_always --no-startup-id killall back4.sh
+# exec_always --no-startup-id ~/.dotfiles/wallpaper/back4.sh 0.048 ~/.dotfiles/wallpaper/moon.webp &
+
+exec --no-startup-id xinput --set-prop "AlpsPS/2 ALPS DualPoint TouchPad" "libinput Tapping Enabled" 1
+exec --no-startup-id setxkbmap -model pc104 -layout us,ir -option grp:alt_shift_toggle
+
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+
+#
+##
+### Floating mode
+for_window [class="Nitrogen"]        floating enable sticky enable border normal
